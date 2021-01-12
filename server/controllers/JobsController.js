@@ -10,6 +10,7 @@ export class JobsController extends BaseController {
     this.router
 
       .get("", this.getAll)
+      .get("/:jobid", this.getOne)
       .post("", this.create)
 
   }
@@ -25,7 +26,13 @@ export class JobsController extends BaseController {
     }
   }
 
-
+  async getOne(req, res, next) {
+    try {
+      res.send(await jobsService.getOne(req.params.jobId))
+    } catch (error) {
+      next(error)
+    }
+  }
 
 
 
