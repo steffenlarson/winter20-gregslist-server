@@ -10,8 +10,10 @@ export class JobsController extends BaseController {
     this.router
 
       .get("", this.getAll)
-      .get("/:jobid", this.getOne)
+      .get("/:jobId", this.getOne)
       .post("", this.create)
+      .put("/:Id", this.edit)
+      .delete("/:Id", this.delete)
 
   }
 
@@ -35,10 +37,26 @@ export class JobsController extends BaseController {
   }
 
 
-
   async create(req, res, next) {
     try {
       res.send(await jobsService.create(req.body))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async edit(res, req, next) {
+    try {
+      res.send(await jobsService.edit(req.params.Id, req.body))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      // REVIEW why do we only use id here and not in the get one??
+      res.send(await jobsService.delete(req.params.Id))
     } catch (error) {
       next(error)
     }
